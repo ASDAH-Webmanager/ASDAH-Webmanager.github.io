@@ -34,79 +34,18 @@ permalink: /about/
     Meet the leadership team that guides our organization.
   </p>
   <div class="officer-grid">
-
+    {% for officer in site.data.officers %}
     <div class="officer-card">
-      <div class="officer-photo-placeholder" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="30" r="16" fill="#c8c0b0"/>
-          <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" fill="#c8c0b0"/>
-        </svg>
-      </div>
-      <h3 class="officer-name">Jane Smith</h3>
-      <p class="officer-title">President</p>
-      <p class="officer-bio">Placeholder bio — add a one- to two-sentence description of this officer's background and role.</p>
+      <img class="officer-photo"
+           src="{{ officer.photo }}"
+           alt="{{ officer.photo_alt }}"
+           width="200" height="200"
+           loading="lazy">
+      <h3 class="officer-name">{{ officer.name }}</h3>
+      <p class="officer-title">{{ officer.title }}</p>
+      <p class="officer-bio">{{ officer.bio }}</p>
     </div>
-
-    <div class="officer-card">
-      <div class="officer-photo-placeholder" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="30" r="16" fill="#c8c0b0"/>
-          <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" fill="#c8c0b0"/>
-        </svg>
-      </div>
-      <h3 class="officer-name">John Doe</h3>
-      <p class="officer-title">Vice President</p>
-      <p class="officer-bio">Placeholder bio — add a one- to two-sentence description of this officer's background and role.</p>
-    </div>
-
-    <div class="officer-card">
-      <div class="officer-photo-placeholder" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="30" r="16" fill="#c8c0b0"/>
-          <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" fill="#c8c0b0"/>
-        </svg>
-      </div>
-      <h3 class="officer-name">Alex Johnson</h3>
-      <p class="officer-title">Secretary</p>
-      <p class="officer-bio">Placeholder bio — add a one- to two-sentence description of this officer's background and role.</p>
-    </div>
-
-    <div class="officer-card">
-      <div class="officer-photo-placeholder" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="30" r="16" fill="#c8c0b0"/>
-          <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" fill="#c8c0b0"/>
-        </svg>
-      </div>
-      <h3 class="officer-name">Maria Garcia</h3>
-      <p class="officer-title">Treasurer</p>
-      <p class="officer-bio">Placeholder bio — add a one- to two-sentence description of this officer's background and role.</p>
-    </div>
-
-    <div class="officer-card">
-      <div class="officer-photo-placeholder" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="30" r="16" fill="#c8c0b0"/>
-          <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" fill="#c8c0b0"/>
-        </svg>
-      </div>
-      <h3 class="officer-name">Chris Lee</h3>
-      <p class="officer-title">Events Coordinator</p>
-      <p class="officer-bio">Placeholder bio — add a one- to two-sentence description of this officer's background and role.</p>
-    </div>
-
-    <div class="officer-card">
-      <div class="officer-photo-placeholder" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="30" r="16" fill="#c8c0b0"/>
-          <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" fill="#c8c0b0"/>
-        </svg>
-      </div>
-      <h3 class="officer-name">Sam Taylor</h3>
-      <p class="officer-title">Communications Officer</p>
-      <p class="officer-bio">Placeholder bio — add a one- to two-sentence description of this officer's background and role.</p>
-    </div>
-
+    {% endfor %}
   </div>
 </section>
 
