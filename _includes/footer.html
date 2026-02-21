@@ -1,0 +1,27 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">{{ site.title }}</div>
+      <p>{{ site.description }}</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="{{ '/' | relative_url }}">Home</a></li>
+        <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+        <li><a href="{{ '/research/' | relative_url }}">Research</a></li>
+        <li><a href="{{ '/news/' | relative_url }}">News</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="{{ '/about/' | relative_url }}">Get in Touch</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}. All rights reserved.</span>
+    <span>Last updated: {{ site.time | date: '%d %B %Y' }}</span>
+  </div>
+</footer>

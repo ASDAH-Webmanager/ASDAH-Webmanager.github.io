@@ -1,0 +1,14 @@
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="{{ '/' | relative_url }}" class="nav-logo">
+      <span class="nav-logo-top">The Institute for Research and</span>
+      <span class="nav-logo-bottom">Scholarly Inquiry</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>Home</a></li>
+      <li><a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about' %} class="active"{% endif %}>About</a></li>
+      <li><a href="{{ '/research/' | relative_url }}"{% if page.url contains '/research' %} class="active"{% endif %}>Research</a></li>
+      <li><a href="{{ '/news/' | relative_url }}"{% if page.url contains '/news' or page.url contains '/20' %} class="active"{% endif %}>News</a></li>
+    </ul>
+  </div>
+</nav>
