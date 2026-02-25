@@ -186,6 +186,51 @@ a:hover {
   text-decoration: none;
 }
 
+/* Hamburger toggle — hidden on desktop */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.nav-toggle:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-alt);
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: var(--color-primary);
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-toggle.is-open .nav-toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle.is-open .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.nav-toggle.is-open .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 /* =============================================
    Layout
    ============================================= */
@@ -652,7 +697,76 @@ a:hover {
 /* =============================================
    Responsive
    ============================================= */
+
+/* ── Tablet & mobile nav (hamburger) ── */
 @media (max-width: 768px) {
+  /* Make nav the offset parent for the dropdown */
+  .site-nav {
+    position: relative;
+  }
+
+  /* Show hamburger button */
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* Collapse nav links into a dropdown */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--color-nav-bg);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+    padding: 0.5rem 0;
+    z-index: 99;
+    gap: 0;
+  }
+
+  .nav-links.is-open {
+    display: flex;
+  }
+
+  /* Full-width tap targets in the dropdown */
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    padding: 0.85rem 1.5rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    border-bottom: none;
+    border-left: 3px solid transparent;
+    width: 100%;
+  }
+
+  .nav-links a:hover {
+    color: var(--color-accent);
+    border-bottom-color: transparent;
+    border-left-color: var(--color-accent);
+    background-color: var(--color-bg-alt);
+    text-decoration: none;
+  }
+
+  .nav-links a.active {
+    color: var(--color-primary);
+    border-bottom-color: transparent;
+    border-left-color: var(--color-primary);
+    background-color: var(--color-bg-alt);
+  }
+
+  .nav-links .btn-nav-cta {
+    margin: 0.5rem 1rem;
+    width: calc(100% - 2rem);
+    text-align: center;
+  }
+
+  /* Footer two-col */
   .footer-inner {
     grid-template-columns: 1fr 1fr;
   }
@@ -660,33 +774,53 @@ a:hover {
   .footer-brand {
     grid-column: 1 / -1;
   }
+
+  /* Page header */
+  .page-header-band {
+    padding: 2rem 1.25rem;
+  }
+
+  /* Membership */
+  .membership-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
-@media (max-width: 600px) {
+/* ── Small phones ── */
+@media (max-width: 480px) {
   .nav-inner {
     padding: 0 1rem;
   }
 
-  .nav-links {
-    gap: 0;
-  }
-
-  .nav-links a {
-    padding: 0.4rem 0.5rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.02em;
-  }
-
-  .nav-links .btn-nav-cta {
-    display: none;
+  .hero {
+    min-height: 380px;
   }
 
   .hero-content {
-    padding: 3.5rem 1.25rem 3rem;
+    padding: 3rem 1.25rem 2.5rem;
+  }
+
+  .hero .btn-group {
+    flex-direction: column;
+    align-items: center;
   }
 
   .page-content {
-    padding: 2rem 1.25rem 3rem;
+    padding: 2rem 1rem 3rem;
+  }
+
+  .page-header-band {
+    padding: 1.75rem 1rem;
+  }
+
+  .section-grid {
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+  }
+
+  .officer-grid {
+    grid-template-columns: 1fr;
   }
 
   .footer-inner {
@@ -697,6 +831,16 @@ a:hover {
   .footer-bottom {
     flex-direction: column;
     text-align: center;
+  }
+
+  .scroll-fab {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .scroll-fab-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.68rem;
   }
 }
 /* =============================================
@@ -910,16 +1054,4 @@ a:hover {
 
 .scroll-fab-btn:hover {
   background-color: var(--color-accent);
-}
-
-@media (max-width: 700px) {
-  .membership-layout {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .scroll-fab {
-    bottom: 1rem;
-    right: 1rem;
-  }
 }
