@@ -1,5 +1,5 @@
-title: The Institute for Research and Scholarly Inquiry
-description: Advancing knowledge through rigorous scholarship and open inquiry.
+title: Association of Seventh-day Adventist Historians
+description: Fostering research among Seventh-day Adventist historians.
 baseurl: ""
 url: ""
 
@@ -17,3 +17,4 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+  - TODO.md
