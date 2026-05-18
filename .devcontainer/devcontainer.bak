@@ -1,0 +1,39 @@
+{
+  "name": "GitHub Pages (Jekyll)",
+  //"image": "mcr.microsoft.com/devcontainers/ruby:3.3",
+  "image": "mcr.microsoft.com/devcontainers/ruby:1-3.3-bookworm",
+
+  // Match GitHub Pages Ruby version (3.3.4) as closely as possible.
+  // All gem versions are locked by the github-pages gem in Gemfile.lock.
+  // "postCreateCommand": "bundle install",
+    "postCreateCommand": "bundle install",
+
+  "forwardPorts": [4000],
+  "portsAttributes": {
+    "4000": {
+      "label": "Jekyll Server",
+      "onAutoForward": "notify"
+    }
+  },
+
+  // --livereload adds auto-refresh on file save.
+  // --force_polling is needed inside containers where inotify is unreliable.
+  // --host 0.0.0.0 exposes the server outside the container network.
+  "postStartCommand": "bundle exec jekyll serve --host 0.0.0.0 --livereload --force_polling",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Shopify.ruby-lsp",
+        "sissel.shopify-liquid",
+        "yzhang.markdown-all-in-one",
+        "streetsidesoftware.code-spell-checker"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+
+  "remoteUser": "vscode"
+}
