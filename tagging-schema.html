@@ -1,0 +1,1450 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Adventist Historical Literature Tagging Schema</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                color-scheme: light;
+                --background: 37 33% 97%;
+                --foreground: 240 15% 15%;
+                --card: 37 30% 95%;
+                --primary: 218 44% 20%;
+                --secondary: 37 30% 90%;
+                --muted: 37 20% 92%;
+                --muted-foreground: 218 15% 45%;
+                --accent: 37 70% 42%;
+                --border: 37 20% 85%;
+                --radius: 0.5rem;
+                --duration-fast: 150ms;
+                --duration-normal: 250ms;
+                --duration-slow: 400ms;
+                --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+                --shell-max: 1120px;
+                --content-max: 820px;
+                --sidebar-width: 224px;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                margin: 0;
+                font-family: "Source Sans 3", system-ui, sans-serif;
+                font-size: 16px;
+                line-height: 1.5;
+                color: hsl(var(--foreground));
+                background-color: hsl(var(--background));
+                background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 0h2v20H9V0zm-9 9h20v2H0V9z' fill='%23c4a35a' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+                background-repeat: repeat;
+            }
+
+            a {
+                color: inherit;
+                text-decoration: none;
+                transition:
+                    color var(--duration-fast) cubic-bezier(0.4, 0, 0.2, 1),
+                    background-color var(--duration-fast) cubic-bezier(0.4, 0, 0.2, 1),
+                    border-color var(--duration-fast) cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            h1,
+            h2,
+            h3,
+            h4 {
+                margin: 0;
+                font-weight: 600;
+                color: hsl(var(--primary));
+            }
+
+            h1 {
+                font-family: "Cormorant Garamond", serif;
+                font-size: 48px;
+                line-height: 1;
+                letter-spacing: -1.2px;
+            }
+
+            h2 {
+                font-family: "Cormorant Garamond", serif;
+                font-size: 24px;
+            }
+
+            p {
+                margin: 0 0 12px;
+                color: hsl(var(--muted-foreground));
+            }
+
+            .shell {
+                max-width: var(--shell-max);
+                margin: 0 auto;
+                padding: 0 24px;
+            }
+
+            .site-header {
+                position: sticky;
+                top: 0;
+                z-index: 50;
+                background: rgba(250, 247, 242, 0.92);
+                backdrop-filter: blur(12px);
+                border-bottom: 1.5px solid hsl(var(--border));
+            }
+
+            .header-inner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 24px;
+                padding: 16px 0;
+            }
+
+            .brand {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .brand-label {
+                margin: 0;
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: rgb(155, 155, 155);
+            }
+
+            .brand-title {
+                margin: 0;
+                font-family: "Cormorant Garamond", serif;
+                font-size: 20px;
+                font-weight: 600;
+                color: hsl(var(--primary));
+            }
+
+            .header-meta {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+
+            .meta-item {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .meta-label {
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: rgb(155, 155, 155);
+            }
+
+            .meta-value {
+                font-size: 13px;
+                color: rgb(122, 122, 122);
+            }
+
+            .page {
+                display: grid;
+                grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+                gap: 32px;
+                padding: 32px 0 80px;
+            }
+
+            .sidebar {
+                position: sticky;
+                top: 96px;
+                align-self: start;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .content {
+                max-width: var(--content-max);
+            }
+
+            .card {
+                background: rgba(255, 255, 255, 0.6);
+                border: 1.5px solid hsl(var(--border));
+                border-radius: 12px;
+                padding: 24px;
+            }
+
+            .card.compact {
+                border-radius: 8px;
+                padding: 16px;
+            }
+
+            .section {
+                margin-bottom: 32px;
+            }
+
+            .section-label {
+                margin: 0 0 12px;
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: rgb(155, 155, 155);
+            }
+
+            .section-label.facet-overview-label {
+                margin-top: 28px;
+                margin-bottom: 16px;
+                font-size: 28px;
+                letter-spacing: 2.4px;
+            }
+
+            .subtitle {
+                font-style: italic;
+                color: rgb(122, 122, 122);
+                max-width: 640px;
+            }
+
+            .meta-line {
+                font-size: 13px;
+                color: rgb(90, 98, 112);
+            }
+
+            .meta-inline-label {
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: rgb(155, 155, 155);
+                margin-right: 8px;
+            }
+
+            .grid {
+                display: grid;
+                gap: 16px;
+            }
+
+            .grid-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .grid-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            .callout {
+                border-left: 4px solid rgba(184, 134, 11, 0.6);
+                padding: 12px 16px;
+                background: rgba(255, 255, 255, 0.7);
+                border-radius: 12px;
+                border: 1.5px solid hsl(var(--border));
+                color: rgb(90, 98, 112);
+                margin: 16px 0 20px;
+            }
+
+            .tag-code {
+                font-family: "JetBrains Mono", ui-monospace, monospace;
+                font-size: 14px;
+                padding: 2px 6px;
+                border-radius: 4px;
+                border: 1px solid hsl(var(--border));
+                background: rgba(27, 42, 74, 0.08);
+                color: hsl(var(--primary));
+            }
+
+            .toc {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .toc-link {
+                font-size: 13px;
+                color: rgb(122, 122, 122);
+                padding: 6px 10px;
+                border-radius: 6px;
+            }
+
+            .toc-link:hover {
+                background: rgba(27, 42, 74, 0.08);
+                color: hsl(var(--primary));
+            }
+
+            .toc-link.active {
+                background: rgba(27, 42, 74, 0.12);
+                color: hsl(var(--primary));
+                font-weight: 600;
+            }
+
+            .toc-sub {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                margin: 2px 0 6px;
+                padding-left: 8px;
+                border-left: 1px solid rgba(27, 42, 74, 0.12);
+            }
+
+            .toc-sub .toc-link {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+
+            .facet-grid {
+                display: grid;
+                gap: 12px;
+            }
+
+            .facet-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 14px 16px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                border: 1.5px solid var(--facet-border);
+                background: var(--facet-bg);
+                color: var(--facet-color);
+                transition: box-shadow var(--duration-fast) cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .facet-badge:hover {
+                box-shadow: var(--shadow-sm);
+            }
+
+            .facet-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 999px;
+                background: currentColor;
+            }
+
+            .facet-section {
+                margin-top: 28px;
+            }
+
+            .facet-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+
+            .facet-icon {
+                width: 32px;
+                height: 32px;
+                border-radius: 999px;
+                background: var(--facet-bg);
+                border: 1.5px solid var(--facet-border);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--facet-color);
+            }
+
+            .facet-symbol {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 20px;
+                height: 20px;
+            }
+
+            .facet-icon svg,
+            .facet-symbol svg {
+                width: 20px;
+                height: 20px;
+                stroke: currentColor;
+                stroke-width: 1.5;
+                fill: none;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+
+            .facet-label {
+                margin: 0;
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: rgb(155, 155, 155);
+            }
+
+            .facet-name {
+                font-family: "Cormorant Garamond", serif;
+                font-size: 24px;
+                margin: 2px 0 0;
+            }
+
+            .tag-group {
+                margin-bottom: 16px;
+            }
+
+            .tag-group h4 {
+                margin: 0 0 12px;
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: var(--facet-color);
+            }
+
+            .tag-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .tag-chip {
+                display: inline-flex;
+                align-items: center;
+                padding: 4px 8px;
+                border-radius: 6px;
+                border: 1.5px solid transparent;
+                font-family: "JetBrains Mono", ui-monospace, monospace;
+                font-size: 12px;
+                line-height: 1.3;
+                white-space: nowrap;
+            }
+
+            .tag-chip[data-category="Period"] {
+                color: rgb(59, 89, 152);
+                background: rgba(235, 240, 250, 0.565);
+                border-color: rgba(59, 89, 152, 0.125);
+            }
+
+            .tag-chip[data-category="Geography"] {
+                color: rgb(45, 125, 107);
+                background: rgba(232, 245, 241, 0.565);
+                border-color: rgba(45, 125, 107, 0.125);
+            }
+
+            .tag-chip[data-category="Topic"] {
+                color: rgb(193, 125, 43);
+                background: rgba(253, 243, 228, 0.565);
+                border-color: rgba(193, 125, 43, 0.125);
+            }
+
+            .tag-chip[data-category="Method"] {
+                color: rgb(123, 94, 167);
+                background: rgba(243, 238, 249, 0.565);
+                border-color: rgba(123, 94, 167, 0.125);
+            }
+
+            .tag-chip[data-category="RelatedGroups"] {
+                color: rgb(181, 72, 94);
+                background: rgba(252, 238, 241, 0.565);
+                border-color: rgba(181, 72, 94, 0.125);
+            }
+
+            .tag-chip[data-category="Person"] {
+                color: rgb(139, 111, 71);
+                background: rgba(245, 240, 232, 0.565);
+                border-color: rgba(139, 111, 71, 0.125);
+            }
+
+            .tag-chip[data-category="Collection"] {
+                color: rgb(61, 122, 95);
+                background: rgba(233, 244, 238, 0.565);
+                border-color: rgba(61, 122, 95, 0.125);
+            }
+
+            .tag-chip[data-category="Status"] {
+                color: rgb(107, 114, 128);
+                background: rgba(241, 243, 246, 0.8);
+                border-color: rgba(107, 114, 128, 0.125);
+            }
+
+            .example-card h3 {
+                margin: 0 0 8px;
+                font-family: "Cormorant Garamond", serif;
+                font-size: 20px;
+            }
+
+            .example-card p {
+                margin-bottom: 12px;
+            }
+
+            .example-tags {
+                margin-top: 8px;
+            }
+
+            .footer-note {
+                text-align: center;
+                font-size: 12px;
+                color: rgb(122, 122, 122);
+                margin-top: 32px;
+            }
+
+            .facet-period {
+                --facet-color: rgb(24, 74, 180);
+                --facet-bg: rgba(220, 233, 255, 0.82);
+                --facet-border: rgba(24, 74, 180, 0.32);
+            }
+
+            .facet-geo {
+                --facet-color: rgb(0, 123, 129);
+                --facet-bg: rgba(216, 247, 245, 0.82);
+                --facet-border: rgba(0, 123, 129, 0.32);
+            }
+
+            .facet-topic {
+                --facet-color: rgb(181, 98, 0);
+                --facet-bg: rgba(255, 238, 204, 0.84);
+                --facet-border: rgba(181, 98, 0, 0.34);
+            }
+
+            .facet-method {
+                --facet-color: rgb(106, 52, 196);
+                --facet-bg: rgba(235, 223, 255, 0.82);
+                --facet-border: rgba(106, 52, 196, 0.32);
+            }
+
+            .facet-related {
+                --facet-color: rgb(187, 24, 70);
+                --facet-bg: rgba(255, 218, 229, 0.82);
+                --facet-border: rgba(187, 24, 70, 0.32);
+            }
+
+            .facet-person {
+                --facet-color: rgb(128, 75, 22);
+                --facet-bg: rgba(250, 232, 209, 0.84);
+                --facet-border: rgba(128, 75, 22, 0.34);
+            }
+
+            .facet-collection {
+                --facet-color: rgb(18, 118, 42);
+                --facet-bg: rgba(219, 245, 223, 0.82);
+                --facet-border: rgba(18, 118, 42, 0.32);
+            }
+
+            .facet-status {
+                --facet-color: rgb(72, 85, 102);
+                --facet-bg: rgba(236, 241, 247, 0.82);
+                --facet-border: rgba(72, 85, 102, 0.2);
+            }
+
+            @media (max-width: 960px) {
+                .page {
+                    grid-template-columns: 1fr;
+                }
+
+                .sidebar {
+                    position: static;
+                    order: 2;
+                }
+
+                .content {
+                    max-width: none;
+                }
+
+                .grid-4 {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+            }
+
+            @media (max-width: 720px) {
+                h1 {
+                    font-size: 36px;
+                    letter-spacing: -0.6px;
+                }
+
+                .header-inner {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .grid-2 {
+                    grid-template-columns: 1fr;
+                }
+
+                .grid-4 {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media (max-width: 600px) {
+                .shell {
+                    padding: 0 16px;
+                }
+
+                .page {
+                    gap: 24px;
+                    padding: 24px 0 64px;
+                }
+
+                .header-inner {
+                    gap: 16px;
+                    padding: 12px 0;
+                }
+
+                .card {
+                    padding: 20px;
+                }
+
+                .card.compact {
+                    padding: 14px;
+                }
+
+                .tag-code {
+                    font-size: 12px;
+                }
+
+                .tag-chip {
+                    font-size: 11px;
+                    max-width: 100%;
+                    white-space: normal;
+                    word-break: break-word;
+                }
+
+                .facet-name {
+                    font-size: 20px;
+                }
+            }
+
+            @media (max-width: 420px) {
+                h1 {
+                    font-size: 30px;
+                    letter-spacing: -0.3px;
+                }
+
+                h2 {
+                    font-size: 20px;
+                }
+
+                .brand-title {
+                    font-size: 18px;
+                }
+
+                .meta-value {
+                    font-size: 12px;
+                }
+
+                .callout {
+                    padding: 10px 12px;
+                }
+
+                .tag-chip {
+                    padding: 3px 6px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="site-header">
+            <div class="shell header-inner">
+                <div class="brand">
+                    <p class="brand-label">Controlled Vocabulary Schema</p>
+                    <p class="brand-title">Adventist Historical Literature</p>
+                </div>
+                <div class="header-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Version</span>
+                        <span class="meta-value">1.0</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Last updated</span>
+                        <span class="meta-value">May 19, 2026</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="shell page">
+            <aside class="sidebar">
+                <div class="card compact">
+                    <p class="section-label">Contents</p>
+                    <nav class="toc">
+                        <a class="toc-link" href="#overview">Overview</a>
+                        <a class="toc-link" href="#schema">Schema facets</a>
+                        <div class="toc-sub">
+                            <a class="toc-link" href="#facet-periods">Chronological periods</a>
+                            <a class="toc-link" href="#facet-geography">Geography</a>
+                            <a class="toc-link" href="#facet-topics">Topics</a>
+                            <a class="toc-link" href="#facet-methods">Disciplinary approaches</a>
+                            <a class="toc-link" href="#facet-related">Related groups</a>
+                            <a class="toc-link" href="#facet-people">Key figures</a>
+                            <a class="toc-link" href="#facet-collections">Special collections</a>
+                            <a class="toc-link" href="#facet-status">Status</a>
+                        </div>
+                        <a class="toc-link" href="#examples">Practical examples</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <div class="content">
+                <section id="overview" class="card section">
+                    <p class="section-label">Overview</p>
+                    <h1>Controlled Vocabulary Schema for Adventist Historical Literature</h1>
+                    <br />
+                    <p class="subtitle">
+                        This controlled vocabulary provides a hierarchical tagging schema for organizing academic literature in history and related disciplines
+                        focusing on Seventh-day Adventism and associated religious groups.
+                    </p>
+                    <!-- <p class="meta-line"><span class="meta-inline-label">Purpose</span>Zotero tagging system for Adventist historical literature.</p> -->
+
+                    <h2>Guiding principles</h2>
+                    <div class="grid grid-2">
+                        <div class="card compact">
+                            <h2>Start broad, then refine</h2>
+                            <p>Use high-level tags at first, and add more specific ones as patterns emerge.</p>
+                        </div>
+                        <div class="card compact">
+                            <h2>Use multiple descriptors</h2>
+                            <p>Most items get several tags: period, geography, topic, and sometimes method or people.</p>
+                        </div>
+                        <div class="card compact">
+                            <h2>Add new subtags sparingly</h2>
+                            <p>Create a new subtag only when 3 or more items need it.</p>
+                        </div>
+                        <div class="card compact">
+                            <h2>Keep it organized</h2>
+                            Tags are written as short paths separated by <strong>::</strong>. For example,
+                            <span class="tag-code">Geography::North America::United States</span> reads like a breadcrumb trail.
+                        </div>
+                    </div>
+
+                    <p class="section-label facet-overview-label">8 Primary Facets</p>
+                    <div class="facet-grid grid-4">
+                        <div class="facet-badge facet-period">
+                            <span class="facet-symbol">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M12 7v5l3 2" />
+                                </svg>
+                            </span>
+                            Chronological Periods
+                        </div>
+                        <div class="facet-badge facet-geo">
+                            <span class="facet-symbol">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M3 12h18" />
+                                    <path d="M12 3c3.5 3.8 3.5 14.2 0 18" />
+                                    <path d="M12 3c-3.5 3.8-3.5 14.2 0 18" />
+                                </svg>
+                            </span>
+                            Geography
+                        </div>
+                        <div class="facet-badge facet-topic">
+                            <span class="facet-symbol">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="M3 12l9-9h7v7l-9 9-7-7z" />
+                                    <circle cx="16" cy="8" r="1.5" />
+                                </svg>
+                            </span>
+                            Topics
+                        </div>
+                        <div class="facet-badge facet-method">
+                            <span class="facet-symbol">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M9 15l2-6 6-2-2 6-6 2z" />
+                                </svg>
+                            </span>
+                            Disciplinary Approaches
+                        </div>
+                        <div class="facet-badge facet-related">
+                            <span class="facet-symbol">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="6" cy="6" r="2" />
+                                    <circle cx="18" cy="6" r="2" />
+                                    <circle cx="12" cy="18" r="2" />
+                                    <path d="M8 7l4 8 4-8" />
+                                </svg>
+                            </span>
+                            Related Movements and Groups
+                        </div>
+                        <div class="facet-badge facet-person">
+                            <span class="facet-symbol">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="8" r="3.5" />
+                                    <path d="M5 20c1.5-3 4-5 7-5s5.5 2 7 5" />
+                                </svg>
+                            </span>
+                            Key Figures
+                        </div>
+                        <div class="facet-badge facet-collection">
+                            <span class="facet-symbol">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="M3 7h18v12H3z" />
+                                    <path d="M5 7l2-3h10l2 3" />
+                                    <path d="M9 12h6" />
+                                </svg>
+                            </span>
+                            Special Collections
+                        </div>
+                        <div class="facet-badge facet-status">
+                            <span class="facet-symbol">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M8 12l2.5 2.5L16 9" />
+                                </svg>
+                            </span>
+                            Status
+                        </div>
+                    </div>
+                </section>
+
+                <section id="schema" class="card section">
+                    <p class="section-label">Tag Facets</p>
+                    <h2>Schema, organized by facet</h2>
+                    <!-- <p>Browse the official tags by facet. Use the full path to keep hierarchy clear.</p> -->
+
+                    <div class="facet-section facet-period" id="facet-periods">
+                        <div class="facet-header">
+                            <span class="facet-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M12 7v5l3 2" />
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="facet-label">Facet 1</p>
+                                <h3 class="facet-name">Chronological Periods</h3>
+                            </div>
+                        </div>
+
+                        <div class="card compact tag-group">
+                            <h4>Generic Historical Periods</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Period">Period::Ancient</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Medieval</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Early Modern</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::19th Century</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::20th Century</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::21st Century</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Adventist-Specific Subperiods</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Pre-1844</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Millerite (1830s-1844)</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Post-1844 (1844-1863)</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Denominational Organization (1863-1900)</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Early 20th Century</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Late 20th Century</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Contemporary</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Watershed Periods</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Period">Period::Reformation</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::U.S. Civil War</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::World War I</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::World War II</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="facet-section facet-geo" id="facet-geography">
+                        <div class="facet-header">
+                            <span class="facet-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M3 12h18" />
+                                    <path d="M12 3c3.5 3.8 3.5 14.2 0 18" />
+                                    <path d="M12 3c-3.5 3.8-3.5 14.2 0 18" />
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="facet-label">Facet 2</p>
+                                <h3 class="facet-name">Geography</h3>
+                            </div>
+                        </div>
+
+                        <div class="card compact tag-group">
+                            <h4>North America</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America::United States::Northeast</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America::United States::South</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America::United States::Midwest</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America::United States::West</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America::Canada</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America::Mexico</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America::Caribbean</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Latin America</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Geography">Geography::Latin America</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Latin America::Central America</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Latin America::South America::Andean Region</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Latin America::South America::Southern Cone</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Latin America::South America::Brazil</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Europe</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Geography">Geography::Europe</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Europe::Western Europe</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Europe::Eastern Europe</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Europe::Scandinavia</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Europe::United Kingdom</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Africa</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Geography">Geography::Africa</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Africa::East Africa</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Africa::West Africa</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Africa::Southern Africa</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Africa::North Africa</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Asia</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Geography">Geography::Asia</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Asia::East Asia</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Asia::South Asia</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Asia::Southeast Asia</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Asia::Central Asia</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Asia::Middle East</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Pacific</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Geography">Geography::Pacific</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Pacific::Australia & New Zealand</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Pacific::Pacific Islands</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Transnational</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Geography">Geography::Transnational</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="facet-section facet-topic" id="facet-topics">
+                        <div class="facet-header">
+                            <span class="facet-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="M3 12l9-9h7v7l-9 9-7-7z" />
+                                    <circle cx="16" cy="8" r="1.5" />
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="facet-label">Facet 3</p>
+                                <h3 class="facet-name">Topics</h3>
+                            </div>
+                        </div>
+
+                        <div class="card compact tag-group">
+                            <h4>Doctrine</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Sabbath</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Apocalypticism</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Second Coming / Eschatology</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Remnant Theology</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Prophetic Interpretation</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::State of the Dead</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Righteousness by Faith</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Three Angels' Messages</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Evangelism</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Evangelism</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Evangelism::Foreign Missions</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Evangelism::Home Missions</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Evangelism::Medical Missions</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Evangelism::Educational Missions</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Evangelism::Literature Evangelism</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Evangelism::Missionary Biographies</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Education</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Education</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Education::Primary / Secondary</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Education::Higher Education</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Education::Theological Education</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Education::Educational Philosophy</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Health</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Health</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Health::Health Reform Movement</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Health::Diet</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Health :Hospitals</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Health::Sanitariums</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Health::Medical Education</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Health::Public Health</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Social Issues</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Temperance</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Social Reform</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Race / Ethnicity</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Race / Ethnicity</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Race / Ethnicity::African American Adventism</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Race / Ethnicity::Regional Conferences</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Race / Ethnicity::Segregation</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Race / Ethnicity::Asian American Adventism</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Race / Ethnicity::Latino/a Adventism</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Gender / Women</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Women</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Women::Women's Leadership</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Women::Ordination Debates</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Women::Gender Roles</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Women::Family / Marriage</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Migration / Diaspora</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Migration / Diaspora</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Religious Liberty</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Religious Liberty</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Religious Liberty::Church-State Relations</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Religious Liberty::Sabbath Legislation</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Religious Liberty::Sunday Laws</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Politics</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Politics</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Military Service</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Military Service</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Military Service::Pacifism / Conscientious Objection</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Military Service::Noncombatancy</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Ecumenism</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Ecumenism</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Ecumenism::Interfaith Relations</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Ecumenism::Ecumenical Dialogue</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Liturgical Practice / Worship</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Liturgical Practice / Worship</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Liturgical Practice / Worship::Sabbath Observance</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Liturgical Practice / Worship::Music</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Liturgical Practice / Worship::Baptism</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Liturgical Practice / Worship::Communion</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Technology / Media</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Technology / Media</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Technology / Media::Publishing</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Technology / Media::Radio / Broadcasting</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Technology / Media::Television</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Technology / Media::Digital Media</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Controversies / Conflict</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Controversies / Conflict</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Controversies / Conflict::Doctrinal Disputes</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Controversies / Conflict::Organizational Conflict</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Controversies / Conflict::Glacier View (1980)</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Controversies / Conflict::Desmond Ford</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Controversies / Conflict::Schisms / Offshoots</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Institutions</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Institutions</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Institutions::General Conference</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Institutions::Divisions</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Institutions::Unions / Conferences</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Institutions::Local Churches</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Adventist Culture</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Adventist Culture</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Adventist Culture::Lifestyle</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Adventist Culture::Dress Reform</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Adventist Culture::Food Culture</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Adventist Culture::Identity Formation</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Intellectual History</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Topic">Topic::Intellectual History</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Intellectual History::Theological Development</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Intellectual History::Science / Religion</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Intellectual History::Creationism / Evolution</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Intellectual History::Historiography</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="facet-section facet-method" id="facet-methods">
+                        <div class="facet-header">
+                            <span class="facet-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M9 15l2-6 6-2-2 6-6 2z" />
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="facet-label">Facet 4</p>
+                                <h3 class="facet-name">Disciplinary Approaches</h3>
+                            </div>
+                        </div>
+
+                        <div class="card compact tag-group">
+                            <h4>Historical Methods</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Method">Method::Historical</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Historical::Social History</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Historical::Intellectual History</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Historical::Cultural History</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Historical::Institutional History</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Historical::Biography</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Historical::Oral History</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Theological Methods</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Method">Method::Theological</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Theological::Systematic Theology</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Theological::Biblical Studies</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Theological::Historical Theology</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Social Sciences</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Method">Method::Social Sciences</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Social Sciences::Sociology</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Social Sciences::Anthropology</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Social Sciences::Political Science</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Social Sciences::Psychology</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Social Sciences::Demographics</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Other Disciplinary Approaches</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="Method">Method::American Studies</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Digital / Computational</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Comparative Religion</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Memory Studies</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="facet-section facet-related" id="facet-related">
+                        <div class="facet-header">
+                            <span class="facet-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="6" cy="6" r="2" />
+                                    <circle cx="18" cy="6" r="2" />
+                                    <circle cx="12" cy="18" r="2" />
+                                    <path d="M8 7l4 8 4-8" />
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="facet-label">Facet 5</p>
+                                <h3 class="facet-name">Related Movements and Groups</h3>
+                            </div>
+                        </div>
+
+                        <div class="card compact tag-group">
+                            <h4>Precursors</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Precursors</span></li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Precursors::Waldensians</span></li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Precursors::Anabaptists</span></li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Precursors::Seventh Day Baptists</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Millerites</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Millerites</span></li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Millerites::Advent Christian Church</span></li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Millerites::Evangelical Adventists</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Sabbatarian Adventists</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Sabbatarian Adventists</span></li>
+                                <li>
+                                    <span class="tag-chip" data-category="RelatedGroups"
+                                        >RelatedGroups::Sabbatarian Adventists::Church of God (Seventh Day)</span
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Adventist Offshoots</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Adventist Offshoots</span></li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Adventist Offshoots::Branch Davidians</span></li>
+                                <li>
+                                    <span class="tag-chip" data-category="RelatedGroups"
+                                        >RelatedGroups::Adventist Offshoots::Davidian Seventh-day Adventists</span
+                                    >
+                                </li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Adventist Offshoots::Shepherd's Rod</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact tag-group">
+                            <h4>Related Christian Movements</h4>
+                            <ul class="tag-list">
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Related Christian Movements</span></li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Related Christian Movements::Restorationism</span></li>
+                                <li>
+                                    <span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Related Christian Movements::Holiness Movement</span>
+                                </li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Related Christian Movements::Pentecostalism</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="facet-section facet-person" id="facet-people">
+                        <div class="facet-header">
+                            <span class="facet-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="8" r="3.5" />
+                                    <path d="M5 20c1.5-3 4-5 7-5s5.5 2 7 5" />
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="facet-label">Facet 6</p>
+                                <h3 class="facet-name">Key Figures</h3>
+                            </div>
+                        </div>
+
+                        <div class="callout">Format: <strong>Person::Last, First</strong></div>
+                        <ul class="tag-list">
+                            <li><span class="tag-chip" data-category="Person">Person::Andrews, John Nevins</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Bates, Joseph</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Butler, George I.</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Daniells, Arthur G.</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Ford, Desmond</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Jones, Alonzo T.</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Kellogg, John Harvey</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Miller, William</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Prescott, William W.</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Smith, Uriah</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::Waggoner, Ellet J.</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::White, Ellen G.</span></li>
+                            <li><span class="tag-chip" data-category="Person">Person::White, James</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="facet-section facet-collection" id="facet-collections">
+                        <div class="facet-header">
+                            <span class="facet-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="M3 7h18v12H3z" />
+                                    <path d="M5 7l2-3h10l2 3" />
+                                    <path d="M9 12h6" />
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="facet-label">Facet 7</p>
+                                <h3 class="facet-name">Special Collections</h3>
+                            </div>
+                        </div>
+
+                        <div class="callout">Use <strong>Collection::Name</strong> to mark items from specific archives.</div>
+                        <ul class="tag-list">
+                            <li><span class="tag-chip" data-category="Collection">Collection::Center for Adventist Research</span></li>
+                            <li><span class="tag-chip" data-category="Collection">Collection::Ellen G. White Estate</span></li>
+                            <li><span class="tag-chip" data-category="Collection">Collection::Loma Linda University Archives</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="facet-section facet-status" id="facet-status">
+                        <div class="facet-header">
+                            <span class="facet-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M8 12l2.5 2.5L16 9" />
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="facet-label">Facet 8</p>
+                                <h3 class="facet-name">Status (Administrative Tags)</h3>
+                            </div>
+                        </div>
+
+                        <div class="callout">Status tags are for workflow management.</div>
+                        <ul class="tag-list">
+                            <li><span class="tag-chip" data-category="Status">Status::Needs Review</span></li>
+                            <li><span class="tag-chip" data-category="Status">Status::Incomplete Metadata</span></li>
+                            <li><span class="tag-chip" data-category="Status">Status::Edge Case</span></li>
+                            <li><span class="tag-chip" data-category="Status">Status::Duplicate Check</span></li>
+                            <li><span class="tag-chip" data-category="Status">Status::Non-Adventist Context</span></li>
+                            <li><span class="tag-chip" data-category="Status">Status::Tagged</span></li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="examples" class="card section">
+                    <!--<p class="section-label">Practical Examples</p>-->
+                    <h2>Examples of well-tagged items</h2>
+                    <p>These examples show how tags combine to provide a more complete description of a text.</p>
+
+                    <div class="grid grid-2">
+                        <div class="card compact example-card">
+                            <h3>Missionary Biography</h3>
+                            <p>Biography of a medical missionary nurse working in Kenya (1960s).</p>
+                            <ul class="tag-list example-tags">
+                                <li><span class="tag-chip" data-category="Period">Period::20th Century</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Late 20th Century</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Africa::East Africa</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Evangelism::Medical Missions</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Health</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Women</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Historical::Biography</span></li>
+                                <li><span class="tag-chip" data-category="Status">Status::Tagged</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact example-card">
+                            <h3>Doctrinal Study</h3>
+                            <p>Scholarly article on Sabbath theology in early Adventist thought.</p>
+                            <ul class="tag-list example-tags">
+                                <li><span class="tag-chip" data-category="Period">Period::19th Century</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Post-1844 (1844-1863)</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America::United States</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Sabbath</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Intellectual History::Theological Development</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Theological::Historical Theology</span></li>
+                                <li><span class="tag-chip" data-category="Person">Person::White, Ellen G.</span></li>
+                                <li><span class="tag-chip" data-category="Person">Person::Bates, Joseph</span></li>
+                                <li><span class="tag-chip" data-category="Status">Status::Tagged</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact example-card">
+                            <h3>Institutional History</h3>
+                            <p>Book on the development of Adventist education in Brazil.</p>
+                            <ul class="tag-list example-tags">
+                                <li><span class="tag-chip" data-category="Period">Period::20th Century</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Early 20th Century</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Late 20th Century</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::Latin America::South America::Brazil</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Education::Higher Education</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Evangelism::Educational Missions</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Historical::Institutional History</span></li>
+                                <li><span class="tag-chip" data-category="Status">Status::Tagged</span></li>
+                            </ul>
+                        </div>
+                        <div class="card compact example-card">
+                            <h3>Millerite Study</h3>
+                            <p>Study of William Miller's prophetic calculations.</p>
+                            <ul class="tag-list example-tags">
+                                <li><span class="tag-chip" data-category="Period">Period::19th Century</span></li>
+                                <li><span class="tag-chip" data-category="Period">Period::Adventist::Millerite (1830s-1844)</span></li>
+                                <li><span class="tag-chip" data-category="Geography">Geography::North America::United States::Northeast</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Prophetic Interpretation</span></li>
+                                <li><span class="tag-chip" data-category="Topic">Topic::Doctrine::Second Coming / Eschatology</span></li>
+                                <li><span class="tag-chip" data-category="Method">Method::Historical::Intellectual History</span></li>
+                                <li><span class="tag-chip" data-category="Person">Person::Miller, William</span></li>
+                                <li><span class="tag-chip" data-category="RelatedGroups">RelatedGroups::Millerites</span></li>
+                                <li><span class="tag-chip" data-category="Status">Status::Tagged</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <p class="footer-note">End of controlled vocabulary schema.</p>
+            </div>
+        </main>
+
+        <script>
+            const tocLinks = Array.from(document.querySelectorAll(".toc-link[href^='#']"));
+            const sectionTargets = tocLinks.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+
+            const linkById = new Map(
+                tocLinks
+                    .map((link) => {
+                        const id = link.getAttribute("href").slice(1);
+                        return [id, link];
+                    })
+                    .filter(([id]) => id),
+            );
+
+            const setActiveLink = (id) => {
+                tocLinks.forEach((link) => link.classList.remove("active"));
+                const activeLink = linkById.get(id);
+                if (activeLink) {
+                    activeLink.classList.add("active");
+                }
+            };
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+                    if (visible.length) {
+                        setActiveLink(visible[0].target.id);
+                    }
+                },
+                {
+                    rootMargin: "-20% 0px -60% 0px",
+                    threshold: 0,
+                },
+            );
+
+            sectionTargets.forEach((section) => observer.observe(section));
+        </script>
+    </body>
+</html>

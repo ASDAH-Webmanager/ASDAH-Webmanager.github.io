@@ -1,6 +1,24 @@
-# My Site
+# Documentation
 
-A Jekyll static site deployed via GitHub Pages.
+Officer information is set in `_data\officers.yml`
+
+---
+
+To add more posts, create a new file in `_posts/` following the naming convention: `YYYY-MM-DD-your-post-title.md`
+
+Each file needs a front matter block at the top:
+
+```yaml
+---
+layout: post
+title: Your Post Title
+date: YYYY-MM-DD
+---
+```
+
+Everything below the front matter is written in Markdown and will be rendered automatically on the News page and at its own URL.
+
+---
 
 ## Structure
 
